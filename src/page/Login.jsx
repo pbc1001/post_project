@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Picture from "../assets/eye-img.svg";
+import { login } from "../apis/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,16 +15,15 @@ const Login = () => {
       alert("이메일과 비밀번호를 입력해주세요");
       return;
     }
-    if (password.length > 6) {
+    if (password.length < 6) {
       alert("비밀번호는 6자 이상이어야 합니다.");
       return;
     }
 
     try {
-      const res = await { email, password };
-      localStorage.setItem("accessToken", res.token);
+      const res = await login({ email, password });
+      localStorage.setItem("accessToken", res.token); 
       alert("로그인 성공!");
-      //필요로 하면 이동
     } catch (err) {
       console.error(err);
     }
