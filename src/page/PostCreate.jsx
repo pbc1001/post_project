@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Vector from "../assets/Vector.svg";
-import { postcreate } from "../apis/auth";
+import { postcreate } from "../apis/post";
 
 
 const PostCreate = () => {

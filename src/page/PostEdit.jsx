@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Vector from "../assets/Vector.svg";
-import { postedit } from "../apis/auth";
+import { postedit } from "../apis/post";
 
 
 const PostEdit = () => {
