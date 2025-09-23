@@ -2,10 +2,12 @@ import React,{ useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Post from "../assets/Frame.svg";
 import { getPost } from "../apis/post";
+import { useNavigate } from "react-router-dom";
 
 const PostList = () => {
 
 const [postlist, setPostList] = useState([]);
+const nevigate = useNavigate();
 
 useEffect (()=> {
   const fetchData = async() => {
@@ -28,6 +30,11 @@ const formatDate = (dateString) => {
       .replace(/\s/g, ""); // 공백 제거
   };
 
+const handleClick = (id) => {
+  nevigate(`/check-post/${id}`);
+
+}
+
   return (
     <Body>
       <TotalContainer>
@@ -42,7 +49,7 @@ const formatDate = (dateString) => {
               <List>게시글 작성하기</List>
             </ListButton>
             {postlist.map((post)=>(
-              <ListCard key={post.id}>
+              <ListCard key={post.id} onClick={() => handleClick(post.id)}>
               <Title>
                 <InputTitle>{post.title}</InputTitle>
                 <span>{formatDate(post.createdAt)}</span>
@@ -111,6 +118,7 @@ const ListCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  cursor: pointer;
 `;
 const Title = styled.div`
   background-color: #ffffff;
