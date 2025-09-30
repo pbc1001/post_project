@@ -2,7 +2,7 @@ import React,{ useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Post from "../assets/Frame.svg";
 import { getPost } from "../apis/post";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const PostList = () => {
 
@@ -46,7 +46,8 @@ const handleClick = (id) => {
                 <img src={Post} alt="" />
                 <First>최신순</First>
               </FirstList>
-              <List>게시글 작성하기</List>
+              <List onClick={() => nevigate("/post-create")}
+              >게시글 작성하기</List>
             </ListButton>
             {postlist.map((post)=>(
               <ListCard key={post.id} onClick={() => handleClick(post.id)}>

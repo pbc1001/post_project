@@ -1,42 +1,69 @@
-import React, { useState } from "react";
+import React,{ useState } from "react";
 import styled from "@emotion/styled";
 import Vector from "../assets/Vector.svg";
 import { postcreate } from "../apis/post";
-
+import { useNavigate } from "react-router-dom";
 
 const PostCreate = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const navigate = useNavigate();
+
+  const isValid = title.trim().length > 0 && content.trim().length > 0;
+
+  const handleSubmit = async () => {
+    if (!title) {
+      alert("제목을 입력해주세요");
+      return;
+    }
+    if (!content) {
+      alert("내용을 입력해주세요");
+      return;
+    }
+
+    try {
+      const res = await postcreate({ title, content });
+      navigate(`/check-post/${res.id}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Body>
-    <Container>
-      <Header>
-      <PostList>게시글 목록</PostList>
-      <img src = {Vector}></img>
-      <MakePost>게시글 작성</MakePost>
-      </Header>
-      <Main>
-      <Title>제목</Title>
-      <PostTitleBox
-      type = "text"
-      placeholder = "제목을 입력해주세요"
-      ></PostTitleBox>
-      <Detail>내용</Detail>
-      <DetailBox 
-      type="text"
-      placeholder = "내용을 입력해주세요"
-      ></DetailBox>
-      </Main>
-      <PostMakeButton 
-      type = "button"
-      >
-      <ButtonText>올리기</ButtonText>
-      </PostMakeButton>
-
-    </Container>
+      <Container>
+        <Header>
+          <PostList onClick={() => navigate("/")}>게시글 목록</PostList>
+          <img src={Vector}></img>
+          <MakePost>게시글 작성</MakePost>
+        </Header>
+        <Main>
+          <Title>제목</Title>
+          <PostTitleBox
+            type="text"
+            placeholder="제목을 입력해주세요"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          ></PostTitleBox>
+          <Detail>내용</Detail>
+          <DetailBox
+            type="text"
+            placeholder="내용을 입력해주세요"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          ></DetailBox>
+        </Main>
+        <PostMakeButton
+          onClick={handleSubmit}
+          type="button"
+          disabled={!isValid}
+        >
+          <ButtonText>올리기</ButtonText>
+        </PostMakeButton>
+      </Container>
     </Body>
   );
 };
-
-
 
 const Body = styled.div`
   display: flex;
@@ -83,7 +110,7 @@ const Title = styled.label`
 `;
 const PostTitleBox = styled.input`
   border: none;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   width: 1189px;
   height: 50px;
   border-radius: 4px;
@@ -92,14 +119,13 @@ const PostTitleBox = styled.input`
   margin-bottom: 14px;
 `;
 
-
 const Detail = styled.label`
   font-size: 14px;
   color: #555555;
 `;
 const DetailBox = styled.textarea`
   border: none;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   width: 1189px;
   height: 500px;
   border-radius: 4px;
@@ -124,6 +150,5 @@ const ButtonText = styled.span`
   font-size: 15px;
   font-weight: 500;
 `;
-
 
 export default PostCreate;

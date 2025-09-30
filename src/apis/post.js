@@ -7,7 +7,7 @@ export const getPost = async () => {
 
 
 export const postcreate = async (payload) => {
-    const { data } = await api.post(`/api/posts/${id}`);
+    const { data } = await api.post("/api/posts", payload);
     return data;
 }
 
@@ -21,3 +21,5 @@ export const checkPost = async (id) => {
   const { data } = await api.get(`/api/posts/${id}`);
   return data;
 };
+
+
